@@ -27,7 +27,41 @@
 		 			})
 		 	});
 
-		 	
+		 	myApp.factory('topicFactory', function($http){
+		 		var topics = [];
+		 		var factory = {};
+		 		return factory;
+		 	});
+
+		 	myApp.factory('answerFactory', function($http){
+		 		var answers = [];
+		 		var factory = {}:
+		 		return factory;
+		 	});
+
+		 	myApp.factory('commentFactory', function($http){
+		 		var comments = [];
+		 		var factory = {};
+		 		return factory;
+		 	});
+
+		 	myApp.controller('dashboardsController', function($scope, topicFactory){
+
+		 	});
+
+		 	myApp.controller('topicsController', function($scope, topicFactory, answerFactory, commentFactory){
+
+		 	});
+
+		 	myApp.controller('usersController', function($scope){
+
+		 	});
+
+		 	myApp.controller('namesController', function($scope){
+
+		 	});
+
+
 		</script>
 	</head>
 	<body ng-app = 'myApp'>
