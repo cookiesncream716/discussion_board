@@ -1,3 +1,39 @@
 <div ng-controller = 'dashboardsController'>
-	<h2>Welcome</h2>
+	<h2>Welcome {{ user }}</h2>
+	<p>filter</p>
+	<table class='table'>
+		<thead>
+			<tr>
+				<th>Category</th>
+				<th>Topic</th>
+				<th>User Name</th>
+				<th>Answers</th>
+			</tr>
+		</thead>
+			<tr ng-repeat='topic in topics'>
+				<td>{{ topic.category }}</td>
+				<td><a href=''>{{ topic.topic }}</a></td>
+				<td><a href=''>{{ topic.name }}</a></td>
+				<td>{{ topic.count }}</td>
+			</tr>
+	</table>
+	<h3>Add a New Topic</h3>
+	<form class='col-md-8'>
+		<div class='form-group'>
+			<label for='topic'>Topic:</label>
+			<textarea ng-model='newTopic.topic' rows='2'></textarea>
+		</div>
+		<div class='form-group'>
+			<label for='description'>Description:</label>
+			<textarea ng-model='newTopic.description' rows='5'></textarea>
+		</div>
+		<div class='form-group'>
+			<label for='category'>Category:</label>
+			<select ng-model='newTopic.category'>
+				<option ng-repeat='category in categories'>{{ category.name}}</option>
+			</select>
+		</div>
+		<input type='hidden' ng-value="newTopic.name= user">
+		<button ng-click='createTopic()' class='btn btn-primary'>Submit</button>
+	</form>
 </div>

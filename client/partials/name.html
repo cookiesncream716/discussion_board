@@ -1,8 +1,10 @@
-<div ng-controlelr = 'namesController'>
+<div ng-controller = 'namesController'>
 	<h2>Hello</h2>
 	<h4>Please enter your name to join and share your ideas.</h4>
-	<form>
-		<input type='text' ng-model='newName.name'>
-		<button ng-click='addName()' class='btn btn-info'>Enter</button>
+	<form class='col-md-4'>
+		<div class='form-group'>
+			<input type='text' ng-model='newName.name' class='form-control'>
+		</div>
+		<button  type='submit' ng-click='userName()' class='btn btn-info'>Enter</button>
 	</form>
 </div>

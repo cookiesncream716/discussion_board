@@ -30,12 +30,24 @@
 		 	myApp.factory('topicFactory', function($http){
 		 		var topics = [];
 		 		var factory = {};
+		 		factory.index = function(callback){
+		 			$http.get('/topics').success(function(output){
+		 				topics = output;
+		 				callback(topics);
+		 			});
+		 		};
+		 		factory.create = function(topic, callback){
+		 			$http.post('/topics', topic).success(function(output){
+		 				factory.index(callback);
+		 				callback(topics);
+		 			})
+		 		}
 		 		return factory;
 		 	});
 
 		 	myApp.factory('answerFactory', function($http){
 		 		var answers = [];
-		 		var factory = {}:
+		 		var factory = {};
 		 		return factory;
 		 	});
 
@@ -45,8 +57,45 @@
 		 		return factory;
 		 	});
 
-		 	myApp.controller('dashboardsController', function($scope, topicFactory){
+		 	myApp.factory('userFactory', function($http){
+		 		var users = [];
+		 		var factory = {};
+		 		factory.name = function(info, callback){
+		 			// console.log('factory' + info.name);
+		 			users.push(info.name);
+		 			callback(users)
+		 		}
+		 		factory.get_name = function(callback){
+		 			// console.log('users' + users)
+		 			callback(users)
+		 		}
+		 		factory.get_category = function(callback){
+		 			$http.get('/categories').success(function(output){
+		 				// console.log('category' + callback)
+		 				callback(output)
+		 			})
+		 		}
+		 		return factory;
+		 	});
 
+		 	myApp.controller('dashboardsController', function($scope, topicFactory, userFactory){
+		 		userFactory.get_name(function(data){
+		 			// console.log(data + 'dash controller')
+		 			$scope.user = data[0];
+		 		});
+		 		userFactory.get_category(function(data){
+		 			$scope.categories = data;
+		 		});
+		 		topicFactory.index(function(data){
+		 			$scope.topics = data;
+		 		});
+		 		$scope.createTopic = function(){
+		 			console.log("factory create" + $scope.newTopic.category)
+		 			topicFactory.create($scope.newTopic, function(data){
+		 				$scope.newTopic = {};
+		 				$scope.topics = data;
+		 			});
+		 		};
 		 	});
 
 		 	myApp.controller('topicsController', function($scope, topicFactory, answerFactory, commentFactory){
@@ -57,7 +106,14 @@
 
 		 	});
 
-		 	myApp.controller('namesController', function($scope){
+		 	myApp.controller('namesController', function($scope, $location, userFactory){
+		 		$scope.userName = function(){
+		 			// console.log($scope.newName.name +'hello')
+		 			userFactory.name($scope.newName, function(data){
+		 				$scope.userName = {};
+		 				$location.path('/dashboard')
+		 			})
+		 		}
 
 		 	});
 
@@ -66,7 +122,8 @@
 	</head>
 	<body ng-app = 'myApp'>
 		<div class='container'>
-			<div ng-view = ''
+			<div ng-view = ''>
+			</div>
 		</div>
 	</body>
 </html>
