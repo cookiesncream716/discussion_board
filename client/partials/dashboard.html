@@ -1,6 +1,6 @@
 <div ng-controller = 'dashboardsController'>
 	<h2>Welcome {{ user }}</h2>
-	<p>filter</p>
+	<input class='col-md-offset-10' type='text' ng-model='filter_topic' placeholder='filter' >
 	<table class='table'>
 		<thead>
 			<tr>
@@ -10,10 +10,10 @@
 				<th>Answers</th>
 			</tr>
 		</thead>
-			<tr ng-repeat='topic in topics'>
+			<tr ng-repeat="topic in topics | filter: filter_topic track by $index| orderBy:'topic'">
 				<td>{{ topic.category }}</td>
-				<td><a href=''>{{ topic.topic }}</a></td>
-				<td><a href=''>{{ topic.name }}</a></td>
+				<td><a ng-click='showTopic($index)'>{{ topic.topic }}</a></td>
+				<td><a>{{ topic.name }}</a></td>
 				<td>{{ topic.count }}</td>
 			</tr>
 	</table>

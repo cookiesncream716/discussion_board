@@ -13,4 +13,7 @@ module.exports = function(app){
 	app.post('/topics', function(req, res){
 		topics.create(req, res);
 	});
+	app.post('/topics/:id', function(req, res){
+		topics.show(req, res);
+	})
 }

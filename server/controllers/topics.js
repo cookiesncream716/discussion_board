@@ -19,8 +19,19 @@ module.exports = (function(){
 					console.log("err saving topic" + err);
 				} else{
 					res.json(results);
-				}
-			})
+				};
+			});
+		},
+		show: function(req, res){
+			console.log('controller id' + req.params.id)
+			Topic.findOne({_id: req.params.id}, function(err, results){
+				if(err){
+					console.log('err finding topic' + err);
+				} else{
+					console.log('show' + results)
+					res.json(results);
+				};
+			});
 		}
 	}
 })();

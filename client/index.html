@@ -19,7 +19,7 @@
 		 			.when('/user', {
 		 				templateUrl: 'partials/user.html'
 		 			})
-		 			.when('/topic', {
+		 			.when('/topic/:index', {
 		 				templateUrl: 'partials/topic.html'
 		 			})
 		 			.otherwise({
@@ -29,6 +29,7 @@
 
 		 	myApp.factory('topicFactory', function($http){
 		 		var topics = [];
+		 		var topic = [];
 		 		var factory = {};
 		 		factory.index = function(callback){
 		 			$http.get('/topics').success(function(output){
@@ -40,6 +41,15 @@
 		 			$http.post('/topics', topic).success(function(output){
 		 				factory.index(callback);
 		 				callback(topics);
+		 			})
+		 		};
+		 		factory.show = function(index, callback){
+		 			var id = topics[index]._id;
+		 			// console.log('topic' + id)
+		 			$http.post('/topics/' + id).success(function(output){
+		 				console.log(output.name +'show topic output')
+		 				topic = output;
+		 				callback(topic);
 		 			})
 		 		}
 		 		return factory;
@@ -78,7 +88,7 @@
 		 		return factory;
 		 	});
 
-		 	myApp.controller('dashboardsController', function($scope, topicFactory, userFactory){
+		 	myApp.controller('dashboardsController', function($scope, $location, topicFactory, userFactory){
 		 		userFactory.get_name(function(data){
 		 			// console.log(data + 'dash controller')
 		 			$scope.user = data[0];
@@ -96,9 +106,23 @@
 		 				$scope.topics = data;
 		 			});
 		 		};
+		 		$scope.showTopic = function($index){
+		 			// topicFactory.show($index, function(data){
+		 				////what next
+		 				// $scope.topic = data
+		 				// index = $index
+		 				$location.path('/topic/' +$index);
+		 			// })
+		 		}
 		 	});
 
-		 	myApp.controller('topicsController', function($scope, topicFactory, answerFactory, commentFactory){
+		 	myApp.controller('topicsController', function($scope, $routeParams, topicFactory, answerFactory, commentFactory){
+		 		var index = $routeParams.index;
+		 		console.log('index='+ index)
+		 		topicFactory.show(index, function(data){
+		 			console.log('topic controller' + data);
+		 			$scope.topic = data;
+		 		});
 
 		 	});
 
