@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Topic = mongoose.model('Topic');
+var Answer = mongoose.model('Answer')
 
 module.exports = (function(){
 	return{
@@ -23,15 +24,15 @@ module.exports = (function(){
 			});
 		},
 		show: function(req, res){
-			console.log('controller id' + req.params.id)
-			Topic.findOne({_id: req.params.id}, function(err, results){
+			// console.log('controller id' + req.params.id)
+			Topic.findOne({_id: req.params.id}).populate('answers').exec(function(err, results){
 				if(err){
-					console.log('err finding topic' + err);
+					console.log('err finding topic' +err)
 				} else{
-					console.log('show' + results)
 					res.json(results);
-				};
-			});
+				}
+			})
+
 		}
 	}
 })();

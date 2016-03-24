@@ -38,6 +38,7 @@
 		 			});
 		 		};
 		 		factory.create = function(topic, callback){
+		 			console.log('factory' +topic)
 		 			$http.post('/topics', topic).success(function(output){
 		 				factory.index(callback);
 		 				callback(topics);
@@ -47,7 +48,7 @@
 		 			var id = topics[index]._id;
 		 			// console.log('topic' + id)
 		 			$http.post('/topics/' + id).success(function(output){
-		 				console.log(output.name +'show topic output')
+		 				// console.log(output.name +'show topic output')
 		 				topic = output;
 		 				callback(topic);
 		 			})
@@ -58,6 +59,14 @@
 		 	myApp.factory('answerFactory', function($http){
 		 		var answers = [];
 		 		var factory = {};
+		 		factory.create = function(info, callback){
+		 			console.log('factory' + info.name)
+		 			$http.post('/answers', info).success(function(output){
+		 				console.log('returned to answer factory')
+		 				callback()
+		 				//get topic/answers
+		 			})
+		 		}
 		 		return factory;
 		 	});
 
@@ -107,23 +116,33 @@
 		 			});
 		 		};
 		 		$scope.showTopic = function($index){
-		 			// topicFactory.show($index, function(data){
-		 				////what next
-		 				// $scope.topic = data
-		 				// index = $index
-		 				$location.path('/topic/' +$index);
-		 			// })
+		 			$location.path('/topic/' +$index);
 		 		}
 		 	});
 
-		 	myApp.controller('topicsController', function($scope, $routeParams, topicFactory, answerFactory, commentFactory){
+		 	myApp.controller('topicsController', function($scope, $routeParams, topicFactory, userFactory, answerFactory, commentFactory){
 		 		var index = $routeParams.index;
-		 		console.log('index='+ index)
+		 		// console.log('index='+ index)
 		 		topicFactory.show(index, function(data){
-		 			console.log('topic controller' + data);
+		 			// console.log('topic controller' + data);
 		 			$scope.topic = data;
 		 		});
-
+		 		userFactory.get_name(function(data){
+		 			$scope.user = data[0];
+		 			// console.log('user' + $scope.user)
+		 		});
+		 		$scope.createAnswer = function(){
+		 			// console.log('controller answer' + $scope.newAnswer.name + $scope.newAnswer.topic_id + $scope.newAnswer.answers );
+		 			answerFactory.create($scope.newAnswer, function(data){
+		 				// console.log('here')
+		 				topicFactory.show(index, function(data){
+		 					$scope.topic = data;
+		 					$scope.newAnswer = {};
+		 					console.log('topic controller' + data.name)
+		 				})
+		 				//next
+		 			})
+		 		}
 		 	});
 
 		 	myApp.controller('usersController', function($scope){
