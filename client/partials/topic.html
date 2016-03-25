@@ -15,6 +15,8 @@
 		</form>
 	</div>
 	<div ng-repeat='answer in topic.answers' class='row'>
-		<h5>{{answer.name}}: {{answer.answers}}</h5>
+		<h5>{{answer.name}}: {{answer.answers}}</h5>			
+		<p ng-click='voteUp(answer._id)'>{{answer.up}} vote up</p>
+		<p ng-click='voteDown(answer._id)'>{{answer.down}} vote down</p>
 	</div>
 </div>

@@ -38,7 +38,7 @@
 		 			});
 		 		};
 		 		factory.create = function(topic, callback){
-		 			console.log('factory' +topic)
+		 			// console.log(topic)
 		 			$http.post('/topics', topic).success(function(output){
 		 				factory.index(callback);
 		 				callback(topics);
@@ -60,13 +60,26 @@
 		 		var answers = [];
 		 		var factory = {};
 		 		factory.create = function(info, callback){
-		 			console.log('factory' + info.name)
+		 			// console.log('factory' + info.name)
 		 			$http.post('/answers', info).success(function(output){
 		 				console.log('returned to answer factory')
 		 				callback()
-		 				//get topic/answers
-		 			})
-		 		}
+		 			});
+		 		};
+		 		factory.updateUp = function(id, callback){
+		 			var answer_id = {id: id};
+		 			// console.log('voteup factory' + id)
+		 			$http.post('/answers/up', answer_id).success(function(output){
+		 				// console.log(output)
+		 				callback();
+		 			});
+		 		};
+		 		factory.updateDown = function(id, callback){
+		 			var answer_id = {id: id};
+		 			$http.post('/answers/down', answer_id).success(function(output){
+		 					callback();
+		 			});
+		 		};
 		 		return factory;
 		 	});
 
@@ -109,7 +122,7 @@
 		 			$scope.topics = data;
 		 		});
 		 		$scope.createTopic = function(){
-		 			console.log("factory create" + $scope.newTopic.category)
+		 			// console.log($scope.newTopic)
 		 			topicFactory.create($scope.newTopic, function(data){
 		 				$scope.newTopic = {};
 		 				$scope.topics = data;
@@ -132,17 +145,31 @@
 		 			// console.log('user' + $scope.user)
 		 		});
 		 		$scope.createAnswer = function(){
-		 			// console.log('controller answer' + $scope.newAnswer.name + $scope.newAnswer.topic_id + $scope.newAnswer.answers );
+		 			// console.log($scope.newAnswer);
 		 			answerFactory.create($scope.newAnswer, function(data){
 		 				// console.log('here')
 		 				topicFactory.show(index, function(data){
 		 					$scope.topic = data;
 		 					$scope.newAnswer = {};
-		 					console.log('topic controller' + data.name)
-		 				})
-		 				//next
-		 			})
-		 		}
+		 					// console.log('topic controller' + data.name)
+		 				});
+		 			});
+		 		};
+		 		$scope.voteUp = function(id){
+		 			// console.log("voteUp" + id)
+		 			answerFactory.updateUp(id, function(data){
+		 				topicFactory.show(index, function(data){
+		 					$scope.topic = data;
+		 				});
+		 			});
+		 		};
+		 		$scope.voteDown = function(id){
+		 			answerFactory.updateDown(id, function(data){
+		 				topicFactory.show(index, function(data){
+		 					$scope.topic = data;
+		 				});
+		 			});
+		 		};
 		 	});
 
 		 	myApp.controller('usersController', function($scope){

@@ -5,7 +5,7 @@ var Topic = mongoose.model('Topic')
 module.exports = (function(){
 	return{
 		create: function(req, res){
-			console.log('answer' + req.body.topic_id + req.body.name)
+			// console.log('answer' + req.body.topic_id + req.body.name)
 			Topic.findOne({_id: req.body.topic_id}, function(err, topic){
 				var answer = new Answer(req.body);
 				answer._topic = topic._id;
@@ -22,7 +22,27 @@ module.exports = (function(){
 					})
 				})
 			})
-			// var answer = new Answer({})
+		},
+		updateUp: function(req, res){
+			// console.log("backend updateUp" + req.body.id)
+			Answer.update({_id: req.body.id},{$inc: {up: 1}}, function(err, results){
+				if(err){
+					console.log('failed to add up');
+				} else{
+					console.log('voted up');
+					res.json(results);
+				}
+			})
+		},
+		updateDown: function(req, res){
+			Answer.update({_id: req.body.id}, {$inc: {down: -1}}, function(err, results){
+				if(err){
+					console.log('failed to vote down');
+				} else{
+					console.log('voted down');
+					res.json(results);
+				}
+			})
 		}
 	}
 })();
