@@ -6,7 +6,7 @@ var TopicShema = new mongoose.Schema({
 	topic: String,
 	description: String,
 	answers: [{type: Schema.Types.ObjectId, ref: 'Answer'}],
-	count: Number,
+	count: {type: Number, default: 0},
 	category: String,
 	created_at: {type: Date, default: new Date}
 });

@@ -10,6 +10,7 @@ module.exports = (function(){
 				var answer = new Answer(req.body);
 				answer._topic = topic._id;
 				topic.answers.push(answer);
+				topic.count +=1;
 				answer.save(function(err){
 					topic.save(function(err, results){
 						if(err){

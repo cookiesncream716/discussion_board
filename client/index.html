@@ -63,7 +63,7 @@
 		 		var answers = [];
 		 		var factory = {};
 		 		factory.create = function(info, callback){
-		 			// console.log('factory' + info.name)
+		 			// console.log('factory', info)
 		 			$http.post('/answers', info).success(function(output){
 		 				// console.log('returned to answer factory')
 		 				callback()
