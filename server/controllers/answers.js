@@ -35,7 +35,7 @@ module.exports = (function(){
 			})
 		},
 		updateDown: function(req, res){
-			Answer.update({_id: req.body.id}, {$inc: {down: -1}}, function(err, results){
+			Answer.update({_id: req.body.id}, {$inc: {down: 1}}, function(err, results){
 				if(err){
 					console.log('failed to vote down');
 				} else{

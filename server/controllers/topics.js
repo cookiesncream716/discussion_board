@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Topic = mongoose.model('Topic');
-var Answer = mongoose.model('Answer')
+var Answer = mongoose.model('Answer');
+var Comment = mongoose.model('Comment');
 
 module.exports = (function(){
 	return{
@@ -25,13 +26,22 @@ module.exports = (function(){
 		},
 		show: function(req, res){
 			// console.log('controller id' + req.params.id)
-			Topic.findOne({_id: req.params.id}).populate('answers').exec(function(err, results){
-				if(err){
-					console.log('err finding topic' +err)
-				} else{
-					res.json(results);
-				}
-			})
+			Topic.findOne({_id: req.params.id})
+				.populate({
+					path: 'answers',
+					model: 'Answer',
+					populate: {
+						path: 'comments',
+						model: 'Comment'
+					}
+				})
+				.exec(function(err, topic){
+					if(err){
+						console.log(err)
+					} else{
+						res.json(topic)
+					}
+				})
 
 		}
 	}

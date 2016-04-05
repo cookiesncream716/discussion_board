@@ -1,4 +1,5 @@
 <div ng-controller = 'topicsController'>
+	<a href='#/dashboard'>Dashboard</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a ng-click='logout()'>Logout</a>
 	<h2>{{topic.name}} posted a topic</h2>
 	<div class='col-md-offset-1'>
 		<h3>{{topic.topic}}</h3>
@@ -8,15 +9,23 @@
 		<h4>Post your answer here...</h4>
 		<form role='form' class='col-md-9'>
 			<input type='hidden' ng-value='newAnswer.name=user'>
-			<input type='hidden' ng-value='newAnswer.topic_id=topic._id'>
+			<input type='hidden' ng-value='newAnswer.topic_id=topic.topic._id'>
 			<textarea ng-model='newAnswer.answers' class='form-control'></textarea>
 			<br>
 			<button ng-click='createAnswer()' class='btn btn-primary'>Post</button>
 		</form>
 	</div>
-	<div ng-repeat='answer in topic.answers' class='row'>
+	<div ng-repeat='answer in topic.answers track by answer._id' class='row'>
 		<h5>{{answer.name}}: {{answer.answers}}</h5>			
 		<p ng-click='voteUp(answer._id)'>{{answer.up}} vote up</p>
 		<p ng-click='voteDown(answer._id)'>{{answer.down}} vote down</p>
+		<p ng-repeat='comment in answer.comments track by comment._id' class='col-md-offset-2'>{{comment.name}}: {{comment.comment}}</p>
+		<form role='form' class='col-md-offset-2 col-md-7'>
+			<input type='hidden' ng-value='newComment[answer._id].name=user'>
+			<input type='hidden' ng-value='newComment[answer._id].answer_id=answer._id'>
+			<textarea ng-model='newComment[answer._id].comment' class='form-control'></textarea>
+			<br>
+			<button ng-click='createComment(answer._id)' class='btn btn-primary'>Comment</button>
+		</form>
 	</div>
 </div>

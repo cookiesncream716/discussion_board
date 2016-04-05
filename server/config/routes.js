@@ -22,7 +22,10 @@ module.exports = function(app){
 	app.post('/answers/up', function(req, res){
 		answers.updateUp(req, res);
 	});
-	app.post('/answers/down', function (req, res){
+	app.post('/answers/down', function(req, res){
 		answers.updateDown(req, res)
+	});
+	app.post('/comments', function(req, res){
+		comments.create(req, res)
 	});
 }

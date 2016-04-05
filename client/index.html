@@ -1,9 +1,11 @@
+
 <html>
 	<head>
 		<title>Discussion Board</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
 		<script>
@@ -33,6 +35,7 @@
 		 		var factory = {};
 		 		factory.index = function(callback){
 		 			$http.get('/topics').success(function(output){
+		 				// console.log(output)
 		 				topics = output;
 		 				callback(topics);
 		 			});
@@ -48,7 +51,7 @@
 		 			var id = topics[index]._id;
 		 			// console.log('topic' + id)
 		 			$http.post('/topics/' + id).success(function(output){
-		 				// console.log(output.name +'show topic output')
+		 				// console.log(output)
 		 				topic = output;
 		 				callback(topic);
 		 			})
@@ -62,7 +65,7 @@
 		 		factory.create = function(info, callback){
 		 			// console.log('factory' + info.name)
 		 			$http.post('/answers', info).success(function(output){
-		 				console.log('returned to answer factory')
+		 				// console.log('returned to answer factory')
 		 				callback()
 		 			});
 		 		};
@@ -86,6 +89,11 @@
 		 	myApp.factory('commentFactory', function($http){
 		 		var comments = [];
 		 		var factory = {};
+		 		factory.create = function(info, callback){
+		 			$http.post('/comments', info).success(function(output){
+		 				callback();
+		 			});
+		 		}
 		 		return factory;
 		 	});
 
@@ -96,17 +104,21 @@
 		 			// console.log('factory' + info.name);
 		 			users.push(info.name);
 		 			callback(users)
-		 		}
+		 		};
 		 		factory.get_name = function(callback){
 		 			// console.log('users' + users)
 		 			callback(users)
-		 		}
+		 		};
 		 		factory.get_category = function(callback){
 		 			$http.get('/categories').success(function(output){
 		 				// console.log('category' + callback)
 		 				callback(output)
 		 			})
-		 		}
+		 		};
+		 		factory.logout = function(callback){
+		 			users = [];
+		 			callback();
+		 		};
 		 		return factory;
 		 	});
 
@@ -133,11 +145,14 @@
 		 		}
 		 	});
 
-		 	myApp.controller('topicsController', function($scope, $routeParams, topicFactory, userFactory, answerFactory, commentFactory){
+		 	myApp.controller('topicsController', function($scope, $routeParams, $location, topicFactory, userFactory, answerFactory, commentFactory){
+		 		$scope.newComment = {};
+		 		// #scope.topic = {};
 		 		var index = $routeParams.index;
 		 		// console.log('index='+ index)
 		 		topicFactory.show(index, function(data){
-		 			// console.log('topic controller' + data);
+		 			// console.log(data);
+		 			// console.log('topic controller', data.info[0].comments[0].comment);
 		 			$scope.topic = data;
 		 		});
 		 		userFactory.get_name(function(data){
@@ -155,6 +170,15 @@
 		 				});
 		 			});
 		 		};
+		 		$scope.createComment = function(id){
+		 			// console.log('createComment', id, $scope.newComment[id])
+		 			commentFactory.create($scope.newComment[id], function(data){
+		 				topicFactory.show(index, function(data){
+		 					$scope.topic = data;
+		 					$scope.newComment = {};
+		 				})
+		 			})
+		 		}
 		 		$scope.voteUp = function(id){
 		 			// console.log("voteUp" + id)
 		 			answerFactory.updateUp(id, function(data){
@@ -170,6 +194,12 @@
 		 				});
 		 			});
 		 		};
+		 		$scope.logout = function(){
+		 			// console.log('logout');
+		 			userFactory.logout(function(data){
+		 				$location.path('/')
+		 			})
+		 		}
 		 	});
 
 		 	myApp.controller('usersController', function($scope){
