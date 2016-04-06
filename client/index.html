@@ -102,13 +102,10 @@
 		 		var factory = {};
 		 		factory.name = function(info, callback){
 		 			// console.log('factory' + info.name);
-		 			// var user_name = {user: info};
 		 			$http.post('/users', info).success(function(output){
 		 				users.push(info.name);
 		 				callback(users);
 		 			})
-		 			// users.push(info.name);
-		 			// callback(users)
 		 		};
 		 		factory.get_name = function(callback){
 		 			// console.log('users' + users)
@@ -172,7 +169,6 @@
 		 		// console.log('index='+ index)
 		 		topicFactory.show(index, function(data){
 		 			// console.log(data);
-		 			// console.log('topic controller', data.info[0].comments[0].comment);
 		 			$scope.topic = data;
 		 		});
 		 		userFactory.get_name(function(data){

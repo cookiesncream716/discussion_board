@@ -25,7 +25,6 @@ module.exports = (function(){
 									res.json(results);
 								}
 							})
-							// res.json(results);
 						}
 					})
 				})
