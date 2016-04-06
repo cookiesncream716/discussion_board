@@ -3,9 +3,9 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new mongoose.Schema({
 	name: String,
-	topic: Number,
-	answer: Number,
-	comment: Number
+	topic: {type: Number, default: 0},
+	answer: {type: Number, default: 0},
+	comment: {type: Number, default: 0}
 });
 
 mongoose.model('User', UserSchema);

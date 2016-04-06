@@ -1,6 +1,6 @@
 <div ng-controller = 'topicsController'>
 	<a href='#/dashboard'>Dashboard</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a ng-click='logout()'>Logout</a>
-	<h2>{{topic.name}} posted a topic</h2>
+	<h2><a ng-click='displayUser(topic.name)'>{{topic.name}}</a> posted a topic</h2>
 	<div class='col-md-offset-1'>
 		<h3>{{topic.topic}}</h3>
 		<p>{{topic.description}}</p>
@@ -16,10 +16,10 @@
 		</form>
 	</div>
 	<div ng-repeat='answer in topic.answers track by answer._id' class='row'>
-		<h5>{{answer.name}}: {{answer.answers}}</h5>			
+		<h5><a ng-click='displayUser(answer.name)'>{{answer.name}}</a>: {{answer.answers}}</h5>			
 		<p ng-click='voteUp(answer._id)'>{{answer.up}} vote up</p>
 		<p ng-click='voteDown(answer._id)'>{{answer.down}} vote down</p>
-		<p ng-repeat='comment in answer.comments track by comment._id' class='col-md-offset-2'>{{comment.name}}: {{comment.comment}}</p>
+		<p ng-repeat='comment in answer.comments track by comment._id' class='col-md-offset-2'><a ng-click='displayUser(comment.name)'>{{comment.name}}</a>: {{comment.comment}}</p>
 		<form role='form' class='col-md-offset-2 col-md-7'>
 			<input type='hidden' ng-value='newComment[answer._id].name=user'>
 			<input type='hidden' ng-value='newComment[answer._id].answer_id=answer._id'>

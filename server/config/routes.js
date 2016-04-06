@@ -2,6 +2,7 @@ var topics = require('./../controllers/topics.js');
 var answers = require('./../controllers/answers.js');
 var comments = require('./../controllers/comments.js');
 var categories = require('./../controllers/categories.js');
+var users = require('./../controllers/users.js');
 
 module.exports = function(app){ 
 	app.get('/categories', function(req, res){
@@ -27,5 +28,11 @@ module.exports = function(app){
 	});
 	app.post('/comments', function(req, res){
 		comments.create(req, res)
+	});
+	app.post('/users/:name', function(req, res){
+		users.show(req, res)
+	});
+	app.post('/users', function(req, res){
+		users.create(req, res)
 	});
 }

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Topic = mongoose.model('Topic');
 var Answer = mongoose.model('Answer');
 var Comment = mongoose.model('Comment');
+var User = mongoose.model('User');
 
 module.exports = (function(){
 	return{
@@ -20,7 +21,14 @@ module.exports = (function(){
 				if(err){
 					console.log("err saving topic" + err);
 				} else{
-					res.json(results);
+					console.log(req.body.name);
+					User.update({name: req.body.name}, {$inc: {topic: 1}}, function(err, results){
+						if(err){
+							console.log(err)
+						} else{
+							res.json(results)
+						}
+					})
 				};
 			});
 		},

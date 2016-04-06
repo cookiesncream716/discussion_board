@@ -102,8 +102,13 @@
 		 		var factory = {};
 		 		factory.name = function(info, callback){
 		 			// console.log('factory' + info.name);
-		 			users.push(info.name);
-		 			callback(users)
+		 			// var user_name = {user: info};
+		 			$http.post('/users', info).success(function(output){
+		 				users.push(info.name);
+		 				callback(users);
+		 			})
+		 			// users.push(info.name);
+		 			// callback(users)
 		 		};
 		 		factory.get_name = function(callback){
 		 			// console.log('users' + users)
@@ -115,6 +120,12 @@
 		 				callback(output)
 		 			})
 		 		};
+		 		factory.index = function(data, callback){
+		 			console.log(data)
+		 			$http.post('/users/'+data).success(function(output){
+		 				callback(output)
+		 			})
+		 		}
 		 		factory.logout = function(callback){
 		 			users = [];
 		 			callback();
@@ -203,6 +214,9 @@
 		 				});
 		 			});
 		 		};
+		 		$scope.displayUser = function(name){
+		 			$location.path('/user/' + name)
+		 		}
 		 		$scope.logout = function(){
 		 			// console.log('logout');
 		 			userFactory.logout(function(data){
@@ -213,8 +227,10 @@
 
 		 	myApp.controller('usersController', function($scope, $location, $routeParams, userFactory){
 		 		$scope.user_name = $routeParams.name;
-		 		console.log($scope.user_name)
-		 		// $scope.name = user_name
+		 		// console.log($scope.user_name)
+		 		userFactory.index($scope.user_name, function(data){
+		 			$scope.numbers = data;
+		 		})
 		 		$scope.logout = function(){
 		 			userFactory.logout(function(data){
 		 				$location.path('/')

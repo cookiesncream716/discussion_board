@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Answer = mongoose.model('Answer');
 var Comment = mongoose.model('Comment');
+var User = mongoose.model('User');
 
 module.exports = (function(){
 	return{
@@ -15,7 +16,14 @@ module.exports = (function(){
 							console.log('error saving comment', err);
 						} else{
 							console.log('saved comment');
-							res.json(results);
+							User.update({name: req.body.name}, {$inc: {comment: 1}}, function(err, results){
+								if(err){
+									console.log(err);
+								} else{
+									res.json(results);
+								}
+							})
+							// res.json(results);
 						}
 					})
 				})
