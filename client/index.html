@@ -18,11 +18,11 @@
 		 			.when('/dashboard', {
 		 				templateUrl: 'partials/dashboard.html'
 		 			})
-		 			.when('/user', {
-		 				templateUrl: 'partials/user.html'
-		 			})
 		 			.when('/topic/:index', {
 		 				templateUrl: 'partials/topic.html'
+		 			})
+		 			.when('/user/:name', {
+		 				templateUrl: 'partials/user.html'
 		 			})
 		 			.otherwise({
 		 				redirectTo: '/'
@@ -143,6 +143,15 @@
 		 		$scope.showTopic = function($index){
 		 			$location.path('/topic/' +$index);
 		 		}
+		 		$scope.showUser = function(name){
+		 			// console.log(name)
+		 			$location.path('/user/' + name)
+		 		}
+		 		$scope.logout = function(){
+		 			userFactory.logout(function(data){
+		 				$location.path('/')
+		 			})
+		 		}
 		 	});
 
 		 	myApp.controller('topicsController', function($scope, $routeParams, $location, topicFactory, userFactory, answerFactory, commentFactory){
@@ -198,12 +207,19 @@
 		 			// console.log('logout');
 		 			userFactory.logout(function(data){
 		 				$location.path('/')
-		 			})
-		 		}
+		 			});
+		 		};
 		 	});
 
-		 	myApp.controller('usersController', function($scope){
-
+		 	myApp.controller('usersController', function($scope, $location, $routeParams, userFactory){
+		 		$scope.user_name = $routeParams.name;
+		 		console.log($scope.user_name)
+		 		// $scope.name = user_name
+		 		$scope.logout = function(){
+		 			userFactory.logout(function(data){
+		 				$location.path('/')
+		 			});
+		 		};
 		 	});
 
 		 	myApp.controller('namesController', function($scope, $location, userFactory){

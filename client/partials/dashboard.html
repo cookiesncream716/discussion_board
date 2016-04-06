@@ -1,4 +1,5 @@
 <div ng-controller = 'dashboardsController'>
+	<a ng-click='logout()'>Logout</a>
 	<h2>Welcome {{ user }}</h2>
 	<input class='col-md-offset-10' type='text' ng-model='filter_topic' placeholder='filter' >
 	<table class='table'>
@@ -13,7 +14,7 @@
 			<tr ng-repeat="topic in topics | filter: filter_topic track by $index| orderBy:'topic'">
 				<td>{{ topic.category }}</td>
 				<td><a ng-click='showTopic($index)'>{{ topic.topic }}</a></td>
-				<td><a>{{ topic.name }}</a></td>
+				<td><a ng-click='showUser(topic.name)'>{{ topic.name }}</a></td>
 				<td>{{ topic.count }}</td>
 			</tr>
 	</table>
