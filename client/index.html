@@ -8,6 +8,7 @@
 		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+		<link rel='stylesheet' type='text/css' href='static/style.css'>
 		<script>
 		 	var myApp = angular.module('myApp', ['ngRoute']);
 		 	myApp.config(function($routeProvider){
@@ -249,9 +250,12 @@
 		</script>
 	</head>
 	<body ng-app = 'myApp'>
+	<!-- <div id='background_pic'> -->
+	<div ng-style="{'background-image': 'url(/static/brushedmetal.jpg)'}" id='background_pic'>
 		<div class='container'>
 			<div ng-view = ''>
 			</div>
 		</div>
+	</div>
 	</body>
 </html>

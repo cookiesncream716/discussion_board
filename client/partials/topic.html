@@ -1,9 +1,11 @@
 <div ng-controller = 'topicsController'>
-	<a href='#/dashboard'>Dashboard</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a ng-click='logout()'>Logout</a>
-	<h2><a ng-click='displayUser(topic.name)'>{{topic.name}}</a> posted a topic</h2>
+	<div class='col-md-12 text-right'>
+		<a href='#/dashboard'>Dashboard</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a ng-click='logout()'>Logout</a>
+	</div>
+	<h2><a ng-click='displayUser(topic.name)' class='name'>{{topic.name}}</a> posted</h2>
 	<div class='col-md-offset-1'>
-		<h3>{{topic.topic}}</h3>
-		<p>{{topic.description}}</p>
+		<h3>Topic: {{topic.topic}}</h3>
+		<h2>{{topic.description}}</h2>
 	</div>
 	<div class='row'>
 		<h4>Post your answer here...</h4>
@@ -16,11 +18,11 @@
 		</form>
 	</div>
 	<div ng-repeat='answer in topic.answers track by answer._id' class='row'>
-		<h5><a ng-click='displayUser(answer.name)'>{{answer.name}}</a>: {{answer.answers}}</h5>			
-		<p ng-click='voteUp(answer._id)'>{{answer.up}}&nbsp&nbsp<span class="glyphicon glyphicon-thumbs-up"></span>vote</p>
-		<p ng-click='voteDown(answer._id)'>{{answer.down}}&nbsp&nbsp<span class="glyphicon glyphicon-thumbs-down"></span>vote</p>
-		<p ng-repeat='comment in answer.comments track by comment._id' class='col-md-offset-2'><a ng-click='displayUser(comment.name)'>{{comment.name}}</a>: {{comment.comment}}</p>
-		<form role='form' class='col-md-offset-2 col-md-7'>
+		<h4><a ng-click='displayUser(answer.name)' class='name'>{{answer.name}}</a>: {{answer.answers}}</h4>			
+		<h5 ng-click='voteUp(answer._id)'>{{answer.up}}&nbsp&nbsp<span class="glyphicon glyphicon-thumbs-up"></span></h5>
+		<h5 ng-click='voteDown(answer._id)'>{{answer.down}}&nbsp&nbsp<span class="glyphicon glyphicon-thumbs-down"></span></h5>
+		<p ng-repeat='comment in answer.comments track by comment._id' class='col-md-offset-1'><a ng-click='displayUser(comment.name)' class='name'>{{comment.name}}</a>: {{comment.comment}}</p>
+		<form role='form' class='col-md-offset-1 col-md-7'>
 			<input type='hidden' ng-value='newComment[answer._id].name=user'>
 			<input type='hidden' ng-value='newComment[answer._id].answer_id=answer._id'>
 			<textarea ng-model='newComment[answer._id].comment' class='form-control'></textarea>

@@ -1,0 +1,56 @@
+.container{
+	min-height: 800px;
+	color: #005580;
+	font-family: "Arial Black", Gadget, sans-serif;
+}
+/*.frontback2::after {
+	content: "";
+	opacity: 0.3;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;  
+	background-image: url(empty.jpeg);
+	background-size: 120% 120%;
+    background-repeat: no-repeat;
+}*/
+/*#background_pic{
+	content: '';
+	opacity: 0.5;
+	z-index: -1;
+	background-image: url(/brushedmetal.jpg);
+}*/
+h1{
+	font-size: 6em;
+	margin-bottom: 50px;
+}
+h3{
+	margin-bottom: 50px;
+}
+h2{
+	font-size: 3em;
+}
+.table{
+	color: #005580;
+	font-size: 1.5em;
+}
+a{
+	color: #990000;
+}
+label{
+	font-size: 1.5em;
+}
+.name{
+	color: #005580;
+}
+.glyphicon{
+	font-size: 1.75em;
+}
+#posted{
+	font-size: 2em;
+}
+ul li{
+	font-size: 1.5em;
+}

@@ -1,12 +1,14 @@
-<div ng-controller = 'namesController' ng-style="{'background-image': 'url(/static/brushedmetal.jpg)'}">
+<div ng-controller = 'namesController'>
 	<div class='text-center'>
-		<h1>Welcome To Discussion Board</h1>
-		<h4>Please enter your name to join and share your ideas.</h4>
-		<form class='col-md-4'>
+		<h1>Welcome to</h1>
+		<h1>Discussion Board</h1>
+		<h3>Please enter your name to join and share your ideas.</h3>
+	</div>
+		<form class='col-md-offset-4 col-md-4' role='form'>
 			<div class='form-group'>
 				<input type='text' ng-model='newName.name' class='form-control'>
 			</div>
-			<button  type='submit' ng-click='userName()' class='btn btn-info'>Enter</button>
+			<button  type='submit' ng-click='userName()' class='btn btn-primary'>Enter</button>
 		</form>
-	</div>
+	<!-- </div> -->
 </div>

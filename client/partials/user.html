@@ -1,8 +1,10 @@
 <div ng-controller = 'usersController'>
-	<a href='#/dashboard'>Dashboard</a> | <a ng-click='logout()'>Logout</a>
+	<div class='col-md-12 text-right'>
+		<a href='#/dashboard'>Dashboard</a> | <a ng-click='logout()'>Logout</a>
+	</div>
 	<h2>Username: {{user_name}}</h2>
-	<h4>Posted....</h4>
-	<ul>
+	<h4 class='col-md-offset-1' id='posted'>Posted....</h4>
+	<ul class='col-md-offset-1'>
 		<li>{{ numbers.topic}} Topic</li>
 		<li>{{ numbers.answer}} Answers</li>
 		<li>{{ numbers.comment}} Comments</li>
